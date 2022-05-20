@@ -75,21 +75,19 @@ fn model(_app: &App) -> Model {
         ..Default::default()
     };
 
-    let mut rocket = Rocket {
+    let rocket = Rocket {
         mass: 10.0,
         thrust: 200.0,
         drag: 0.0,
 
-        pos: vec3(0.0, main_planet.radius, 0.0),
+        pos: vec3(0.0, -1.0e4, 0.0),
         rot: Quat::IDENTITY,
 
-        vel: vec3(0.0, 0.0, 0.0),
+        vel: vec3(3.0e2, 0.0, 0.0),
         acc: vec3(0.0, 0.0, 0.0),
 
         shape: vec2(20.0, 40.0),
     };
-
-    rocket.pos.y += rocket.shape.y / 2.0;
 
     let camera = Camera {
         // pos: vec3(0.0, -main_planet.radius, 1.0),
@@ -262,7 +260,7 @@ fn update_rocket(model: &mut Model, dt: f32) {
 
 fn generate_predicted_paths(model: &Model) -> Vec<Vec<(Vec2, Hsla)>> {
     let step_size = 1.0;
-    let iterations = (10.0 / model.camera.scl.x).clamp(5.0, 100.0) as usize;
+    let iterations = (10.0 / model.camera.scl.x).clamp(5.0, 5000.0) as usize;
 
     let mut p_model = model.clone();
     let mut planet_paths: Vec<Vec<(Vec2, Hsla)>> = vec![vec![]; p_model.planets.len()];
@@ -322,7 +320,7 @@ fn view(app: &App, model: &Model, frame: Frame) {
         // .wh(model.rocket.shape / model.camera.scl.xy())
         .xyz(model.rocket.pos)
         .quaternion(model.rocket.rot)
-        .color(BLUE);
+        .color(FLORALWHITE);
     for path in generate_predicted_paths(model) {
         draw.polyline()
             .stroke_weight(2.0 / model.camera.scl.x)

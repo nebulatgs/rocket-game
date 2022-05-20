@@ -6,3 +6,6 @@
 - `Space` - Engine thrust
 - `Left Arrow` - Timewarp (slow down)
 - `Right Arrow` - Timewarp (speed up)
+- `Scroll` - Zoom
+
+You control the rocket (white triangle)
